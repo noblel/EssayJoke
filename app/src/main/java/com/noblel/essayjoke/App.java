@@ -4,10 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
-import com.alipay.euler.andfix.patch.PatchManager;
 import com.noblel.baselibrary.ExceptionCrashHandler;
-import com.noblel.baselibrary.fix.FixDexManager;
 
 
 /**
@@ -15,7 +12,6 @@ import com.noblel.baselibrary.fix.FixDexManager;
  */
 
 public class App extends Application {
-    public static PatchManager sManager;
 
     @Override
     public void onCreate() {
@@ -23,19 +19,6 @@ public class App extends Application {
         //设置全局异常捕捉类
         ExceptionCrashHandler.getInstance().init(this);
 
-
-//        sManager = new PatchManager(this);
-//        sManager.init(getLocalVersionName(this));
-//        //加载之前的patch包
-//        sManager.loadPatch();
-
-        //加载所有修复的dex包
-        try {
-            FixDexManager fixDexManager = new FixDexManager(this);
-            fixDexManager.loadFixDex();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static int getLocalVersion(Context ctx) {

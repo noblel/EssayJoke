@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:color="@color/bg_browser_font_size_foucus_night" />
+    <item android:color="@color/bg_browser_font_size_nofoucus_night" />
+</selector>

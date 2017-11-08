@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_label_hot" android:minLevel="1" android:maxLevel="1" />
+    <item android:drawable="@drawable/ic_label_recommend" android:minLevel="2" android:maxLevel="2" />
+    <item android:drawable="@drawable/ic_label_history" android:minLevel="16" android:maxLevel="16" />
+    <item android:drawable="@drawable/ic_label_audit" android:minLevel="32" android:maxLevel="32" />
+    <item android:drawable="@drawable/ic_label_same_city" android:minLevel="64" android:maxLevel="64" />
+    <item android:drawable="@drawable/ic_label_subscribe" android:minLevel="256" android:maxLevel="256" />
+    <item android:drawable="@drawable/ic_activity_top1" android:minLevel="1001" android:maxLevel="1001" />
+    <item android:drawable="@drawable/ic_activity_top2" android:minLevel="1002" android:maxLevel="1002" />
+    <item android:drawable="@drawable/ic_activity_top3" android:minLevel="1003" android:maxLevel="1003" />
+</level-list>

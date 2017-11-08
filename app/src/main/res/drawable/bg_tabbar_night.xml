@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/list_item_divider_night" />
+    <item android:top="0.5dip">
+        <shape android:shape="rectangle">
+            <solid android:color="#ff0a0c0e" />
+        </shape>
+    </item>
+</layer-list>

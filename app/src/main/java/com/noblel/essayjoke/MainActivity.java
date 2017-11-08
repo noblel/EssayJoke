@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.noblel.baselibrary.ExceptionCrashHandler;
+import com.noblel.baselibrary.dialog.AlertDialog;
 import com.noblel.baselibrary.fix.FixDexManager;
 import com.noblel.baselibrary.ioc.OnClick;
 import com.noblel.baselibrary.ioc.ViewById;
@@ -28,24 +30,8 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initData() {
-        fixDexBug();
-//        andFixBug();
     }
 
-    private void fixDexBug() {
-        File fixFile = new File(Environment.getExternalStorageDirectory(), "fix.dex");
-        if (fixFile.exists()) {
-            //修复bug
-            FixDexManager manager = new FixDexManager(this);
-            try {
-                manager.fix(fixFile.getAbsolutePath());
-                Toast.makeText(this, "修复成功", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Toast.makeText(this, "修复失败", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     protected void initView() {
@@ -53,7 +39,20 @@ public class MainActivity extends BaseSkinActivity {
         btn_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, 2/0 + "Bug修复测试", Toast.LENGTH_SHORT).show();
+                AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                        .setContentView(R.layout.detail_comment_dialog)
+                        .fullWith()
+                        .fromBottom(true)
+                        .show();
+
+                final EditText comment = dialog.getView(R.id.comment_editor);
+
+                dialog.setOnClickListener(R.id.submit_btn, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(MainActivity.this, comment.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -69,40 +68,4 @@ public class MainActivity extends BaseSkinActivity {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
     }
-
-    //阿里热修复
-    private void andFixBug() {
-
-//        //获取上次崩溃信息上传到服务器
-//        File crashFile = ExceptionCrashHandler.getInstance().getCrashFile();
-//        if (crashFile.exists()){
-//            //上传到服务器
-//            try {
-//                InputStreamReader isr = new InputStreamReader(new FileInputStream(crashFile));
-//                char[] buffer = new char[1024];
-//                int len = 0;
-//                while ((len = isr.read(buffer)) != -1){
-//                    String str = new String(buffer,0,len);
-//                    Log.d("TAG",str);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-        //每次启动从后台获取差分包，修复本地bug
-        //直接获取内存卡里面的fix.aptach
-        File fixFile = new File(Environment.getExternalStorageDirectory(), "fix.apatch");
-        if (fixFile.exists()) {
-            //修复bug
-            try {
-                App.sManager.addPatch(fixFile.getAbsolutePath());
-                Toast.makeText(this, "修复成功", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "修复失败", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
 }
