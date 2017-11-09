@@ -15,6 +15,7 @@ import com.noblel.baselibrary.fix.FixDexManager;
 import com.noblel.baselibrary.ioc.OnClick;
 import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.framelibrary.BaseSkinActivity;
+import com.noblel.framelibrary.DefaultNavigationBar;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,7 +60,11 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initTitle() {
-
+        DefaultNavigationBar navigationBar = new DefaultNavigationBar
+                .Builder(this)
+                .setTitle("首页")
+                .setRightText("我的")
+                .builder();
     }
 
     @Override
