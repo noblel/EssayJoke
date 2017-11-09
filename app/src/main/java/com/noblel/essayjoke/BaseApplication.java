@@ -5,17 +5,20 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.noblel.baselibrary.ExceptionCrashHandler;
+import com.noblel.baselibrary.http.HttpUtils;
+import com.noblel.baselibrary.http.OkHttpEngine;
 
 
 /**
  * @author Noblel
  */
 
-public class App extends Application {
+public class BaseApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        HttpUtils.init(new OkHttpEngine());
         //设置全局异常捕捉类
         ExceptionCrashHandler.getInstance().init(this);
 
