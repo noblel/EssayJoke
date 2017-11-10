@@ -19,14 +19,19 @@ import com.noblel.baselibrary.http.HttpUtils;
 import com.noblel.baselibrary.ioc.OnClick;
 import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.essayjoke.model.DiscoverResult;
+import com.noblel.essayjoke.model.Person;
 import com.noblel.framelibrary.BaseSkinActivity;
 import com.noblel.framelibrary.DefaultNavigationBar;
 import com.noblel.framelibrary.HttpCallBack;
+import com.noblel.framelibrary.db.DaoSupportFactory;
+import com.noblel.framelibrary.db.IDaoSupport;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static android.widget.Toast.*;
@@ -38,29 +43,48 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initData() {
-        HttpUtils.width(this).url("http://lf.snssdk.com/2/essay/discovery/v3/?")//路径参数都需要放到jni里面防止反编译
-                .addParam("iid", "17314746569")
-                .addParam("aid", "7")
-                .get().execute(
-                new HttpCallBack<DiscoverResult>() {
-                    //加载进度条
-                    @Override
-                    public void onPreExecute() {
-                        super.onPreExecute();
-                    }
 
-                    @Override
-                    public void onError(Exception e) {
 
-                    }
+        IDaoSupport<Person> daoSupport = DaoSupportFactory.getInstance().getDao(Person.class);
+//        daoSupport.insert(new Person("noblel", 21));
 
-                    @Override
-                    public void onSuccess(DiscoverResult result) {
-                        //显示列表
-                        Log.e("TAG", result.getData().getCategories().getName());
-                        //取消进度条
-                    }
-                });
+//        List<Person> persons = new ArrayList<>();
+//        for (int i = 0; i < 10000; i++) {
+//            persons.add(new Person(""+ i,i));
+//        }
+//
+//        long startTime = System.currentTimeMillis();
+//        daoSupport.insert(persons);
+//        long endTime = System.currentTimeMillis();
+//        Log.e("TAG", "initData: " + (endTime - startTime));
+
+        daoSupport.insertSupport().insert(new Person("asd",6));
+        List query = daoSupport.querySupport().columns("mName").selection("mName=?").selectionArgs("asd").query();
+        Log.e("TAG", ""+query.size());
+
+//        HttpUtils.width(this).url("http://lf.snssdk.com/2/essay/discovery/v3/?")//路径参数都需要放到jni里面防止反编译
+//                .addParam("iid", "17314746569")
+//                .addParam("aid", "7")
+//                .get().execute(
+//                new HttpCallBack<DiscoverResult>() {
+//                    //加载进度条
+//                    @Override
+//                    public void onPreExecute() {
+//                        super.onPreExecute();
+//                    }
+//
+//                    @Override
+//                    public void onError(Exception e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(DiscoverResult result) {
+//                        //显示列表
+//                        Log.e("TAG", result.getData().getCategories().getName());
+//                        //取消进度条
+//                    }
+//                });
     }
 
 

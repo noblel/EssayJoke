@@ -86,8 +86,9 @@ public class HttpUtils{
         mHttpEngine = httpEngine;
     }
 
-    public void exchangeEngine(IHttpEngine httpEngine) {
+    public HttpUtils exchangeEngine(IHttpEngine httpEngine) {
         mHttpEngine = httpEngine;
+        return this;
     }
 
     //拼接参数
