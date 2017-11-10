@@ -2,6 +2,8 @@ package com.noblel.baselibrary.http;
 
 import android.content.Context;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,8 @@ public class HttpUtils{
 
     //添加回调执行
     public void execute(EngineCallBack callBack) {
+        callBack.onPreExecute(mContext, mParams);
+
         if (callBack == null) {
             callBack = EngineCallBack.DEFAULT_CALL_BACK;
         }
@@ -117,5 +121,14 @@ public class HttpUtils{
 
     private void post(String url, Map<String, Object> params, EngineCallBack callBack) {
         mHttpEngine.post(mContext,url, params, callBack);
+    }
+
+    /**
+     * 解析一个类上面的class信息
+     */
+    public static Class<?> analysisClazzInfo(Object object) {
+        Type genType = object.getClass().getGenericSuperclass();
+        Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+        return (Class<?>) params[0];
     }
 }

@@ -1,5 +1,6 @@
 package com.noblel.essayjoke;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.noblel.baselibrary.ExceptionCrashHandler;
 import com.noblel.baselibrary.dialog.AlertDialog;
 import com.noblel.baselibrary.fix.FixDexManager;
@@ -16,13 +18,16 @@ import com.noblel.baselibrary.http.EngineCallBack;
 import com.noblel.baselibrary.http.HttpUtils;
 import com.noblel.baselibrary.ioc.OnClick;
 import com.noblel.baselibrary.ioc.ViewById;
+import com.noblel.essayjoke.model.DiscoverResult;
 import com.noblel.framelibrary.BaseSkinActivity;
 import com.noblel.framelibrary.DefaultNavigationBar;
+import com.noblel.framelibrary.HttpCallBack;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 import static android.widget.Toast.*;
 
@@ -33,17 +38,29 @@ public class MainActivity extends BaseSkinActivity {
 
     @Override
     protected void initData() {
-        HttpUtils.width(this).url("http://lf.snssdk.com/neihan/stream/mix/v1/?mpic=1&webp=1&essence=1&content_type=-101&message_cursor=-1&longitude=123.918176&latitude=47.351132&am_longitude=123.925003&am_latitude=47.353204&am_city=%E9%BD%90%E9%BD%90%E5%93%88%E5%B0%94%E5%B8%82&am_loc_time=1510204195965&count=30&min_time=1510204199&screen_width=1080&iid=17233551625&device_id=35449750107&ac=wifi&channel=xiaomi&aid=7&app_name=joke_essay&version_code=555&version_name=5.5.5&device_platform=android&ssmix=a&device_type=A0001&device_brand=oneplus&os_api=23&os_version=6.0.1&uuid=864587029896611&openudid=bbb66ce3cbf8f5c3&manifest_version_code=555&resolution=1080*1920&dpi=480&update_version_code=5551").get().execute(new EngineCallBack() {
-            @Override
-            public void onError(Exception e) {
+        HttpUtils.width(this).url("http://lf.snssdk.com/2/essay/discovery/v3/?")//路径参数都需要放到jni里面防止反编译
+                .addParam("iid", "17314746569")
+                .addParam("aid", "7")
+                .get().execute(
+                new HttpCallBack<DiscoverResult>() {
+                    //加载进度条
+                    @Override
+                    public void onPreExecute() {
+                        super.onPreExecute();
+                    }
 
-            }
+                    @Override
+                    public void onError(Exception e) {
 
-            @Override
-            public void onSuccess(String result) {
-                Log.e("TAG", result);
-            }
-        });
+                    }
+
+                    @Override
+                    public void onSuccess(DiscoverResult result) {
+                        //显示列表
+                        Log.e("TAG", result.getData().getCategories().getName());
+                        //取消进度条
+                    }
+                });
     }
 
 
