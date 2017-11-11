@@ -6,7 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.noblel.baselibrary.ExceptionCrashHandler;
 import com.noblel.baselibrary.http.HttpUtils;
-import com.noblel.baselibrary.http.OkHttpEngine;
+import com.noblel.framelibrary.http.OkHttpEngine;
 
 
 /**

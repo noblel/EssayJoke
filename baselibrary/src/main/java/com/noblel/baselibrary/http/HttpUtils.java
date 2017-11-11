@@ -16,6 +16,7 @@ public class HttpUtils{
     private int mMethod = GET;
     private static final int POST = 0x0011;
     private static final int GET = 0x0001;
+    private boolean mCache = false;
     private Context mContext;
 
     private Map<String,Object> mParams;
@@ -56,6 +57,12 @@ public class HttpUtils{
         return this;
     }
 
+    //是否配置缓存
+    public HttpUtils cache(boolean isCache) {
+        mCache = isCache;
+        return this;
+    }
+
     //添加回调执行
     public void execute(EngineCallBack callBack) {
         callBack.onPreExecute(mContext, mParams);
@@ -79,7 +86,7 @@ public class HttpUtils{
     }
 
     //默认是OkHttpEngine
-    private static IHttpEngine mHttpEngine = new OkHttpEngine();
+    private static IHttpEngine mHttpEngine = null;
 
     //初始化引擎
     public static void init(IHttpEngine httpEngine) {
@@ -117,11 +124,11 @@ public class HttpUtils{
 
 
     private void get(String url, Map<String, Object> params, EngineCallBack callBack) {
-        mHttpEngine.get(mContext,url, params, callBack);
+        mHttpEngine.get(mCache,mContext,url, params, callBack);
     }
 
     private void post(String url, Map<String, Object> params, EngineCallBack callBack) {
-        mHttpEngine.post(mContext,url, params, callBack);
+        mHttpEngine.post(mCache,mContext,url, params, callBack);
     }
 
     /**

@@ -1,7 +1,15 @@
-package com.noblel.baselibrary.http;
+package com.noblel.framelibrary.http;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
+
+import com.noblel.baselibrary.http.EngineCallBack;
+import com.noblel.baselibrary.http.HttpUtils;
+import com.noblel.baselibrary.http.IHttpEngine;
+import com.noblel.framelibrary.db.DaoSupportFactory;
+import com.noblel.framelibrary.db.DaoSupportImpl;
+import com.noblel.framelibrary.db.IDaoSupport;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,9 +35,18 @@ public class OkHttpEngine implements IHttpEngine {
     private static OkHttpClient mOkHttpClient = new OkHttpClient();
 
     @Override
-    public void get(Context context, String url, Map<String, Object> params, final EngineCallBack callBack) {
-        url = HttpUtils.jointParams(url, params);
-        Log.e("GET 请求地址：", url);
+    public void get(final boolean isCache, Context context, String url, Map<String, Object> params, final EngineCallBack callBack) {
+        final String finalUrl = HttpUtils.jointParams(url, params);
+        //1.判断是否需要缓存
+        if (isCache) {
+            //拿缓存
+            String cacheResultJson = CacheUtil.getCacheResultJson(finalUrl);
+            if (!TextUtils.isEmpty(cacheResultJson)) {
+                //需要缓存而且数据库有缓存
+                Log.e("TAG", "有缓存" + cacheResultJson);
+                callBack.onSuccess(cacheResultJson);
+            }
+        }
 
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url)
@@ -44,15 +61,32 @@ public class OkHttpEngine implements IHttpEngine {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String data = response.body().string();
-                Log.e("GET 返回结果", data);
-                callBack.onSuccess(data);
+                String resultJson  = response.body().string();
+                if (isCache) {
+                    //获取数据后先比对上一次内容
+                    String cacheResultJson = CacheUtil.getCacheResultJson(finalUrl);
+                    if (!TextUtils.isEmpty(cacheResultJson)) {
+                        //比对内容
+                        if (resultJson.equals(cacheResultJson)) {
+                            Log.e("TAG", "数据一致");
+                            return;
+                        } else {
+                            Log.e("TAG", "数据不一致");
+                        }
+                    }
+                }
+                //执行成功方法
+                callBack.onSuccess(resultJson);
+                if (isCache) {
+                    //缓存数据
+                    CacheUtil.cacheData(finalUrl,resultJson);
+                }
             }
         });
     }
 
     @Override
-    public void post(Context context, String url, Map<String, Object> params, final EngineCallBack callBack) {
+    public void post(boolean isCache, Context context, String url, Map<String, Object> params, final EngineCallBack callBack) {
         //Log打印请求地址
         final String jointURL = HttpUtils.jointParams(url, params);
         Log.e("Post 请求地址：", jointURL);

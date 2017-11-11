@@ -11,10 +11,10 @@ import java.util.Map;
 
 public interface IHttpEngine {
     //get请求
-    void get(Context context, String url, Map<String, Object> params, EngineCallBack callBack);
+    void get(boolean isCache, Context context, String url, Map<String, Object> params, EngineCallBack callBack);
 
     //post请求
-    void post(Context context,String url, Map<String, Object> params, EngineCallBack callBack);
+    void post(boolean isCache, Context context, String url, Map<String, Object> params, EngineCallBack callBack);
 
     //下载文件
     //上传文件
