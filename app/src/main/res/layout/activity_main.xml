@@ -4,11 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.noblel.essayjoke.MainActivity">
 
     <Button
+        android:text="Noblel"
         android:id="@+id/btn_main"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:onClick="skin1"
+        android:textColor="@color/skin_color"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="换肤"/>
+
+    <Button
+        android:textColor="@color/skin_color"
+        android:onClick="skin2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="默认"/>
+
+    <Button
+        android:textColor="@color/skin_color"
+        android:onClick="skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="跳转"/>
+
+    <ImageView
+        android:src="@drawable/noblel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

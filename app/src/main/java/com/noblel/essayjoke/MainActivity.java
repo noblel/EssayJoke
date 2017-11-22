@@ -1,5 +1,7 @@
 package com.noblel.essayjoke;
 
+import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -8,10 +10,14 @@ import android.widget.Toast;
 
 import com.noblel.baselibrary.dialog.AlertDialog;
 import com.noblel.baselibrary.http.HttpUtils;
+import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.essayjoke.model.DiscoverResult;
 import com.noblel.framelibrary.BaseSkinActivity;
 import com.noblel.framelibrary.DefaultNavigationBar;
 import com.noblel.framelibrary.http.HttpCallBack;
+import com.noblel.framelibrary.skin.SkinManager;
+
+import java.io.File;
 
 
 public class MainActivity extends BaseSkinActivity {
@@ -65,7 +71,8 @@ public class MainActivity extends BaseSkinActivity {
                 dialog.setOnClickListener(R.id.submit_btn, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(MainActivity.this, comment.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, comment.getText().toString().trim(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -87,4 +94,19 @@ public class MainActivity extends BaseSkinActivity {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
     }
+
+    public void skip(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void skin2(View view) {
+        SkinManager.getInstance().restore();
+    }
+
+    public void skin1(View view) {
+        SkinManager.getInstance().loadSkin(Environment.getExternalStorageDirectory().getPath()
+                + File.separator + "skin.skin");
+    }
+
 }

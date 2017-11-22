@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import com.noblel.baselibrary.ExceptionCrashHandler;
 import com.noblel.baselibrary.http.HttpUtils;
 import com.noblel.framelibrary.http.OkHttpEngine;
+import com.noblel.framelibrary.skin.SkinManager;
 
 
 /**
@@ -20,6 +21,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         HttpUtils.init(new OkHttpEngine());
         //设置全局异常捕捉类
+        SkinManager.getInstance().init(this);
         ExceptionCrashHandler.getInstance().init(this);
 
     }

@@ -637,4 +637,5 @@
     <color name="comment_dialog_content_text">#ff5c6266</color>
     <color name="comment_dialog_share_text">#ff333333</color>
     <color name="comment_dialog_submit_text">#ffffffff</color>
+    <color name="skin_color">#99000000</color>
 </resources>

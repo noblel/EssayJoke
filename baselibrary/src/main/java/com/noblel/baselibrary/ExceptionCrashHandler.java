@@ -146,7 +146,7 @@ public class ExceptionCrashHandler implements Thread.UncaughtExceptionHandler {
 
     private void cacheCrashFile(String fileName) {
         SharedPreferences sp = mContext.getSharedPreferences("crash", Context.MODE_PRIVATE);
-        sp.edit().putString("CRASH_FILE_NAME", fileName).commit();
+        sp.edit().putString("CRASH_FILE_NAME", fileName).apply();
     }
 
     private boolean deleteDir(File dir) {
