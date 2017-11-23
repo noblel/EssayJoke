@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import com.noblel.baselibrary.ExceptionCrashHandler;
 import com.noblel.baselibrary.http.HttpUtils;
+import com.noblel.baselibrary.ioc.ViewById;
+import com.noblel.baselibrary.ioc.ViewUtils;
 import com.noblel.framelibrary.http.OkHttpEngine;
 import com.noblel.framelibrary.skin.SkinManager;
 

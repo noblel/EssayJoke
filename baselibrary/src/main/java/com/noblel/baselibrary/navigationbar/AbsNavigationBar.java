@@ -40,6 +40,10 @@ public abstract class AbsNavigationBar<P extends AbsNavigationBar.Builder.AbsNav
         findViewById(viewId).setOnClickListener(listener);
     }
 
+    //设置视图可见性
+    protected void setVisibility(int viewId, int visibility) {
+        findViewById(viewId).setVisibility(visibility);
+    }
 
     public <T extends View> T findViewById(int viewId){
         return (T) mNavigationView.findViewById(viewId);

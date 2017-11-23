@@ -1,41 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.noblel.essayjoke.MainActivity">
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <Button
-        android:text="Noblel"
-        android:id="@+id/btn_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:onClick="skin1"
-        android:textColor="@color/skin_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="换肤"/>
-
-    <Button
-        android:textColor="@color/skin_color"
-        android:onClick="skin2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="默认"/>
-
-    <Button
-        android:textColor="@color/skin_color"
-        android:onClick="skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="跳转"/>
-
-    <ImageView
-        android:src="@drawable/noblel"
+        android:onClick="callPhone"
+        android:text="测试打电话"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

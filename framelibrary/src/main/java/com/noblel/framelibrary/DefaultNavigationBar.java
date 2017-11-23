@@ -33,7 +33,10 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
 
         //设置左边按钮默认点击  finish事件
         setOnClickListener(R.id.back, getParams().mLeftClickListener);
+
+        setVisibility(R.id.back, getParams().mLeftIconVisible);
     }
+
 
     //1.设置所有效果
     public static class Builder extends AbsNavigationBar.Builder {
@@ -86,11 +89,18 @@ public class DefaultNavigationBar extends AbsNavigationBar<DefaultNavigationBar.
             return this;
         }
 
+        public Builder hideLeftIcon() {
+            P.mLeftIconVisible = View.INVISIBLE;
+            return this;
+        }
+
         //设置所有效果
         public static class DefaultNavigationParams extends AbsNavigationBar.Builder.AbsNavigationParams{
 
             public String mTitle;
             public String mRightText;
+
+            public int mLeftIconVisible = View.VISIBLE;
 
             public View.OnClickListener mRightClickListener;
             public View.OnClickListener mLeftClickListener = new View.OnClickListener() {
