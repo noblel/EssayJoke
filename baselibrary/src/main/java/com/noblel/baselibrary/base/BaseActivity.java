@@ -16,9 +16,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ViewUtils.inject(this);
         //设置布局
         setContentView();
+        ViewUtils.inject(this);
         //初始化头部
         initTitle();
         //初始化界面

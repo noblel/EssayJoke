@@ -13,14 +13,20 @@ public class ViewFinder {
     private View mView;
 
     public ViewFinder(Activity activity) {
-        this.mActivity = activity;
+        mActivity =  activity;
     }
 
     public ViewFinder(View view) {
-        this.mView = view;
+        mView = view;
     }
 
     public View findViewById(int viewId){
-        return mActivity != null ? mActivity.findViewById(viewId):mView.findViewById(viewId);
+        if (mActivity != null) {
+            return mActivity.findViewById(viewId);
+        }
+        if (mView != null) {
+            return mView.findViewById(viewId);
+        }
+        return null;
     }
 }

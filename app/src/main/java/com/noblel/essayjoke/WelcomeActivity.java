@@ -20,7 +20,7 @@ public class WelcomeActivity extends Activity {
             public void run() {
                 //接入广告
                 //进入主Activity
-                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             }
