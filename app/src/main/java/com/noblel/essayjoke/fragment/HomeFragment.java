@@ -4,18 +4,14 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.noblel.baselibrary.base.BaseFragment;
 import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.essayjoke.R;
-import com.noblel.essayjoke.indicator.ColorTrackTextView;
-import com.noblel.essayjoke.indicator.IndicatorAdapter;
-import com.noblel.essayjoke.indicator.TrackIndicatorView;
+import com.noblel.framelibrary.indicator.ColorTrackTextView;
+import com.noblel.framelibrary.indicator.IndicatorAdapter;
+import com.noblel.framelibrary.indicator.TrackIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.noblel.essayjoke.indicator;
+package com.noblel.framelibrary.indicator;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

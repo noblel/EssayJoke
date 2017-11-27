@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.noblel.essayjoke.indicator.TrackIndicatorView
+    <com.noblel.framelibrary.indicator.TrackIndicatorView
         android:id="@+id/indicator_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
