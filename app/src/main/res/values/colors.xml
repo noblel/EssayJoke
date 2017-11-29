@@ -213,8 +213,8 @@
     <color name="dim_foreground_material_light">#ff323232</color>
     <color name="dimgray">#ff696969</color>
     <color name="divider_color">#ff787878</color>
-    <color name="dot_bg">#00ff0000</color>
-    <color name="dot_select_color">#ffffffff</color>
+    <color name="dot_bg">#50ffffff</color>
+    <color name="dot_select_color">#ffcf680c</color>
     <color name="dot_unselect_color">#50ffffff</color>
     <color name="drawer_profile_info_text">#ff999999</color>
     <color name="edit_hint_color">#ffb4b4b4</color>

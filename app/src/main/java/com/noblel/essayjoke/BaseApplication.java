@@ -10,6 +10,7 @@ import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.baselibrary.ioc.ViewUtils;
 import com.noblel.framelibrary.http.OkHttpEngine;
 import com.noblel.framelibrary.skin.SkinManager;
+import com.squareup.leakcanary.LeakCanary;
 
 
 /**
@@ -21,6 +22,12 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
         HttpUtils.init(new OkHttpEngine());
         //设置全局异常捕捉类
         SkinManager.getInstance().init(this);

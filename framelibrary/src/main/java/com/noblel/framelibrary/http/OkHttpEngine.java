@@ -1,16 +1,13 @@
 package com.noblel.framelibrary.http;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.noblel.baselibrary.http.EngineCallBack;
 import com.noblel.baselibrary.http.HttpUtils;
 import com.noblel.baselibrary.http.IHttpEngine;
-import com.noblel.framelibrary.db.DaoSupportFactory;
-import com.noblel.framelibrary.db.DaoSupportImpl;
-import com.noblel.framelibrary.db.IDaoSupport;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.FileNameMap;
@@ -33,6 +30,7 @@ import okhttp3.Response;
 
 public class OkHttpEngine implements IHttpEngine {
     private static OkHttpClient mOkHttpClient = new OkHttpClient();
+    private static Handler mHandler = new Handler();
 
     @Override
     public void get(final boolean isCache, Context context, String url, Map<String, Object> params, final EngineCallBack callBack) {
@@ -55,13 +53,18 @@ public class OkHttpEngine implements IHttpEngine {
 
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                callBack.onError(e);
+            public void onFailure(Call call, final IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onError(e);
+                    }
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String resultJson  = response.body().string();
+                final String resultJson  = response.body().string();
                 if (isCache) {
                     //获取数据后先比对上一次内容
                     String cacheResultJson = CacheUtil.getCacheResultJson(finalUrl);
@@ -76,7 +79,12 @@ public class OkHttpEngine implements IHttpEngine {
                     }
                 }
                 //执行成功方法
-                callBack.onSuccess(resultJson);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onSuccess(resultJson);
+                    }
+                });
                 if (isCache) {
                     //缓存数据
                     CacheUtil.cacheData(finalUrl,resultJson);

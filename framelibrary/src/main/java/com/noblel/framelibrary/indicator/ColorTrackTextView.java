@@ -8,7 +8,8 @@ import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import com.noblel.essayjoke.R;
+import com.noblel.framelibrary.R;
+
 
 /**
  * @author Noblel

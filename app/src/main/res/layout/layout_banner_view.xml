@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.noblel.framelibrary.bannner.BannerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/banner_view"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    app:dotBottomColor="@color/dot_bg"
+    app:dotDistance="10dp"
+    app:dotGravity="right"
+    app:dotIndicatorDefault="@color/dot_unselect_color"
+    app:dotIndicatorFocus="@color/dot_select_color"
+    app:dotSize="8dp"
+    app:heightProportion="3"
+    app:withProportion="8" />

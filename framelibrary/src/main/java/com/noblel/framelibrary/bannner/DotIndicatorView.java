@@ -14,7 +14,7 @@ import android.view.View;
 
 /**
  * @author Noblel
- * 点的指示器
+ *         点的指示器
  */
 public class DotIndicatorView extends View {
     private Drawable mDrawable;
@@ -60,7 +60,7 @@ public class DotIndicatorView extends View {
         canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2,
                 getMeasuredWidth() / 2, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(circleBitmap,0,0,paint);
+        canvas.drawBitmap(bitmap,0,0,paint);
 
         //内存优化回收Bitmap
         bitmap.recycle();
