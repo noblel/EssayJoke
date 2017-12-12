@@ -3,7 +3,6 @@ package com.noblel.framelibrary.skin;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.noblel.framelibrary.skin.attrs.SkinAttr;
 import com.noblel.framelibrary.skin.attrs.SkinType;

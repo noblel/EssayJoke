@@ -4,5 +4,5 @@ package com.noblel.baselibrary.adapter;
  * @author Noblel
  */
 public interface OnItemClickListener {
-    public void onItemClick(int position);
+    void onItemClick(int position);
 }

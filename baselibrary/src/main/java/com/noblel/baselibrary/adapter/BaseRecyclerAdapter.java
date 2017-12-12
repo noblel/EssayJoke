@@ -15,7 +15,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private static final String TAG = BaseRecyclerAdapter.class.getSimpleName();
     protected Context mContext;
     private int mLayoutId;
-    //多条目适配
+    /** 多条目适配 */
     private MultiTypeSupport<T> mTypeSupport;
     private List<T> mData;
     private LayoutInflater mLayoutInflater;

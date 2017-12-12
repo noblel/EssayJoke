@@ -21,7 +21,6 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * @author Noblel
  */
-
 public class FixDexManager {
     private static final String TAG = "FixDexManager";
     private Context mContext;

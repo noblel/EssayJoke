@@ -5,7 +5,7 @@ import android.content.Context;
 import android.text.Html;
 
 import com.noblel.baselibrary.adapter.BaseViewHolder;
-import com.noblel.baselibrary.wrap.WrapRecyclerAdapter;
+import com.noblel.baselibrary.view.wrap.WrapRecyclerAdapter;
 import com.noblel.essayjoke.R;
 import com.noblel.essayjoke.model.DiscoverResult.DataBean.CategoriesBean.CategoryListBean;
 

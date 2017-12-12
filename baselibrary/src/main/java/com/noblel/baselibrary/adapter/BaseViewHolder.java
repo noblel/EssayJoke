@@ -12,7 +12,7 @@ import android.widget.TextView;
  * @author Noblel
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {
-    //缓存已找到的View
+    /** 缓存已找到的View */
     protected SparseArray<View> mViews;
 
     public <T extends View> T getView(int viewId) {

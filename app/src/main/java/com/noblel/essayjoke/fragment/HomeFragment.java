@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import com.noblel.baselibrary.base.BaseFragment;
 import com.noblel.baselibrary.ioc.ViewById;
 import com.noblel.essayjoke.R;
-import com.noblel.framelibrary.indicator.ColorTrackTextView;
-import com.noblel.framelibrary.indicator.IndicatorAdapter;
-import com.noblel.framelibrary.indicator.TrackIndicatorView;
+import com.noblel.framelibrary.view.indicator.ColorTrackTextView;
+import com.noblel.framelibrary.view.indicator.IndicatorAdapter;
+import com.noblel.framelibrary.view.indicator.TrackIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;

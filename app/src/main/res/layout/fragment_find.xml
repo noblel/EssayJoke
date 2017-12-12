@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.noblel.baselibrary.wrap.WrapRecyclerView
+    <com.noblel.baselibrary.view.wrap.WrapRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

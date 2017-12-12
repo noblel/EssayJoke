@@ -2,7 +2,7 @@ package com.noblel.baselibrary.navigationbar;
 
 /**
  * @author Noblel
- * 导航条的规范
+ *         导航条的规范
  */
 
 public interface INavigationBar {

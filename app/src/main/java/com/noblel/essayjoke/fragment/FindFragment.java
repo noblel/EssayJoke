@@ -1,31 +1,33 @@
 package com.noblel.essayjoke.fragment;
 
-import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.noblel.baselibrary.adapter.OnItemClickListener;
 import com.noblel.baselibrary.base.BaseFragment;
-import com.noblel.baselibrary.http.HttpUtils;
+import com.noblel.baselibrary.http.HttpManager;
+import com.noblel.baselibrary.http.base.HttpRequest;
+import com.noblel.baselibrary.http.base.INetCallback;
+import com.noblel.baselibrary.http.base.RequestMethod;
 import com.noblel.baselibrary.ioc.ViewById;
-import com.noblel.baselibrary.wrap.WrapRecyclerView;
+import com.noblel.baselibrary.log.LogManager;
+import com.noblel.baselibrary.utils.ToastUtil;
+import com.noblel.baselibrary.view.wrap.WrapRecyclerView;
 import com.noblel.essayjoke.R;
 import com.noblel.essayjoke.adapter.DiscoverListAdapter;
 import com.noblel.essayjoke.model.DiscoverResult;
 import com.noblel.essayjoke.model.DiscoverResult.DataBean.RotateBannerBean.BannersBean;
-import com.noblel.framelibrary.bannner.BannerAdapter;
-import com.noblel.framelibrary.bannner.BannerView;
-import com.noblel.framelibrary.http.HttpCallBack;
+import com.noblel.framelibrary.view.banner.BannerAdapter;
+import com.noblel.framelibrary.view.banner.BannerView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,24 +42,53 @@ public class FindFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        HttpUtils.width(mContext).url("http://is.snssdk.com/2/essay/discovery/v3/?")
-                .addParam("iid", "6152551759")
-                .addParam("aid", "7")
-                .execute(new HttpCallBack<DiscoverResult>() {
+        new HttpManager().execute(getChildFragmentManager(), buildRequest(),
+                new INetCallback<DiscoverResult>() {
                     @Override
                     public void onSuccess(DiscoverResult result) {
-                        Log.i(TAG, "onSuccess: " + Thread.currentThread().getName());
-                        //显示列表
+                        LogManager.d(TAG, "name --> " + result.getData().getCategories().getName());
                         showListData(result.getData().getCategories().getCategory_list());
-                        //添加轮播图
                         addBannerView(result.getData().getRotate_banner().getBanners());
                     }
 
                     @Override
-                    public void onError(Exception e) {
-
+                    public void onFail(Exception e) {
+                        LogManager.d(TAG, e.getMessage());
+                        ToastUtil.showLongToast(e.getMessage());
                     }
                 });
+    }
+
+    private HttpRequest buildRequest() {
+
+        HttpRequest request = new HttpRequest();
+
+        request.setUrl("http://is.snssdk.com/2/essay/discovery/v3/");
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("iid", "6152551759");
+        params.put("aid", "7");
+        params.put("channel", 360);
+
+        addCommonParams(params);
+
+        request.setParams(params);
+        request.setRequestMethod(RequestMethod.GET);
+        request.setUseCache(true);
+        return request;
+    }
+
+    private void addCommonParams(Map<String, Object> params) {
+        params.put("app_name", "joke_essay");
+        params.put("version_name", "5.7.0");
+        params.put("ac", "wifi");
+        params.put("device_id", "30036118478");
+        params.put("device_brand", "Xiaomi");
+        params.put("update_version_code", "5701");
+        params.put("manifest_version_code", "570");
+        params.put("longitude", "113.000366");
+        params.put("latitude", "28.171377");
+        params.put("device_platform", "android");
     }
 
     private void addBannerView(final List<BannersBean> banners) {
@@ -92,8 +123,6 @@ public class FindFragment extends BaseFragment {
         });
         bannerView.startRoll();
         mWrapRecyclerView.addHeader(bannerView);
-        int type = mWrapRecyclerView.getAdapter().getItemViewType(0);
-        Log.i(TAG, "type -->" + type);
     }
 
     private void showListData(final List<DiscoverResult.DataBean.CategoriesBean.CategoryListBean> list) {
