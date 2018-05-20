@@ -1,6 +1,4 @@
-package com.noblel.baselibrary.common;
-
-import com.noblel.baselibrary.log.LogManager;
+package com.noblel.baselibrary.log;
 
 /**
  * @author Noblel

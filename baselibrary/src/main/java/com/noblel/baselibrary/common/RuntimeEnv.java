@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.noblel.baselibrary.log.ExceptionCrashHandler;
 import com.noblel.baselibrary.log.LogManager;
 
 import java.lang.reflect.Field;
