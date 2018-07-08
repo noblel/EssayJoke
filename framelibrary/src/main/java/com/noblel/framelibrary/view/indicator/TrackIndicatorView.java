@@ -2,22 +2,28 @@ package com.noblel.framelibrary.view.indicator;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 
 
 import com.noblel.framelibrary.R;
 
+import retrofit2.http.POST;
+
 import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
 import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
 
 /**
  * @author Noblel
- *         ViewPager指示器
+ * ViewPager指示器
  */
 public class TrackIndicatorView extends HorizontalScrollView implements ViewPager.OnPageChangeListener {
+    private static final String TAG = TrackIndicatorView.class.getSimpleName();
     private IndicatorAdapter mAdapter;
 
     //指示器条目的容器
@@ -33,15 +39,15 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     //解决点击抖动的问题
     private boolean mIsExecuteScroll = false;
 
-    public TrackIndicatorView(Context context) {
+    public TrackIndicatorView (Context context) {
         this(context, null);
     }
 
-    public TrackIndicatorView(Context context, AttributeSet attrs) {
+    public TrackIndicatorView (Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TrackIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TrackIndicatorView (Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mIndicatorGroup = new IndicatorGroupView(context);
         addView(mIndicatorGroup);
@@ -50,7 +56,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     }
 
     //初始化自定义属性
-    private void initAttribute(Context context, AttributeSet attrs) {
+    private void initAttribute (Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TrackIndicatorView);
         mTabVisibleNum = array.getInteger(R.styleable.TrackIndicatorView_tabVisibleNum, mTabVisibleNum);
         //回收
@@ -58,7 +64,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     }
 
     //设置适配器
-    public void setAdapter(IndicatorAdapter adapter) {
+    public void setAdapter (IndicatorAdapter adapter) {
         if (adapter == null)
             throw new NullPointerException("adapter is null");
         mAdapter = adapter;
@@ -78,22 +84,36 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
         mAdapter.highLightIndicator(mIndicatorGroup.getItemAt(0));
     }
 
-    private void switchItemClick(View itemView, final int position) {
+    private void switchItemClick (View itemView, final int position) {
         itemView.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick (View v) {
+                itemScroll(position);
                 mViewPager.setCurrentItem(position);
-                smoothScrollIndicator(position);
-                //移动下标
+                //移动底部指示器
                 mIndicatorGroup.scrollBottomTrack(position);
             }
         });
     }
 
     /**
+     * 滑动横向指示列表
+     * @param position
+     */
+    private void itemScroll(int position) {
+        //上一个位置重置
+        mAdapter.restoreIndicator(mIndicatorGroup.getItemAt(mCurrentPosition));
+        //将当前位置高亮
+        mCurrentPosition = position;
+        mAdapter.highLightIndicator(mIndicatorGroup.getItemAt(mCurrentPosition));
+
+        smoothScrollIndicator(position);
+    }
+
+    /**
      * 点击移动 带动画
      */
-    private void smoothScrollIndicator(int position) {
+    private void smoothScrollIndicator (int position) {
         //当前总共位置
         float totalScroll = position * mItemWidth;
         //左边的偏移量
@@ -104,7 +124,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
         smoothScrollTo(finalScroll, 0);
     }
 
-    public void setAdapter(IndicatorAdapter adapter, ViewPager viewPager) {
+    public void setAdapter (IndicatorAdapter adapter, ViewPager viewPager) {
         if (viewPager == null) {
             throw new NullPointerException("ViewPager is null");
         }
@@ -114,7 +134,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     }
 
     @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    protected void onLayout (boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
         if (changed) {
             //指定item宽度
@@ -123,7 +143,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
             for (int i = 0; i < mAdapter.getCount(); i++) {
                 mIndicatorGroup.getItemAt(i).getLayoutParams().width = mItemWidth;
             }
-            //添加底部跟踪指示器
+            //添加底部跟踪指示器，此处没有添加
             mIndicatorGroup.addBottomTrackView(mAdapter.getBottomTrackView(), mItemWidth);
         }
     }
@@ -131,7 +151,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     /**
      * 获取Item的宽度
      */
-    private int getItemWidth() {
+    private int getItemWidth () {
         //如果指定了
         int parentWidth = getWidth();
         if (mTabVisibleNum != 0) {
@@ -156,15 +176,22 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels) {
         if (mIsExecuteScroll) {
+            //如果是点击事件就不执行onPageScrolled方法
             scrollCurrentIndicator(position, positionOffset);
             mIndicatorGroup.scrollBottomTrack(position, positionOffset);
-            //如果是点击事件就不执行onPageScrolled方法
         }
     }
 
-    private void scrollCurrentIndicator(int position, float positionOffset) {
+    @Override
+    public void onPageSelected (int position) {
+        if (mIsExecuteScroll) {
+            itemScroll(position);
+        }
+    }
+
+    private void scrollCurrentIndicator (int position, float positionOffset) {
         //当前总共位置
         float totalScroll = (position + positionOffset) * mItemWidth;
         //左边的偏移量
@@ -176,16 +203,7 @@ public class TrackIndicatorView extends HorizontalScrollView implements ViewPage
     }
 
     @Override
-    public void onPageSelected(int position) {
-        //上一个位置重置
-        mAdapter.restoreIndicator(mIndicatorGroup.getItemAt(mCurrentPosition));
-        //将当前位置高亮
-        mCurrentPosition = position;
-        mAdapter.highLightIndicator(mIndicatorGroup.getItemAt(mCurrentPosition));
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
+    public void onPageScrollStateChanged (int state) {
         if (state == SCROLL_STATE_DRAGGING) {
             mIsExecuteScroll = true;
         }

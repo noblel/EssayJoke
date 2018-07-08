@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 
 /**
  * @author Noblel
- *         Indicator的容器,包含ItemView和底部跟踪的指示器
+ * Indicator的容器,包含ItemView和底部跟踪的指示器
  */
 public class IndicatorGroupView extends FrameLayout {
     //指示器条目的容器
@@ -26,33 +26,34 @@ public class IndicatorGroupView extends FrameLayout {
     private LayoutParams mParams;
     private int mInitLeftMargin;
 
-    public IndicatorGroupView(@NonNull Context context) {
+    public IndicatorGroupView (@NonNull Context context) {
         this(context, null);
     }
 
-    public IndicatorGroupView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public IndicatorGroupView (@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public IndicatorGroupView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public IndicatorGroupView (@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mIndicatorGroup = new LinearLayout(context);
         addView(mIndicatorGroup);
     }
 
-    public void addItemView(View itemView) {
+    public void addItemView (View itemView) {
         mIndicatorGroup.addView(itemView);
     }
 
-    public View getItemAt(int position) {
+    public View getItemAt (int position) {
         return mIndicatorGroup.getChildAt(position);
     }
 
     /**
      * 添加底部指示器
      */
-    public void addBottomTrackView(View bottomTrackView, int itemWidth) {
-        if (bottomTrackView == null) return;
+    public void addBottomTrackView (View bottomTrackView, int itemWidth) {
+        if (bottomTrackView == null)
+            return;
         mBottomTrackView = bottomTrackView;
         mItemWidth = itemWidth;
         //添加底部跟踪的View
@@ -62,7 +63,7 @@ public class IndicatorGroupView extends FrameLayout {
         setWidth();
     }
 
-    private void setWidth() {
+    private void setWidth () {
         int trackWidth = mParams.width;
         //没有设置宽度
         if (mParams.width == ViewGroup.LayoutParams.MATCH_PARENT) {
@@ -82,7 +83,7 @@ public class IndicatorGroupView extends FrameLayout {
     /**
      * 显示在底部
      */
-    private void showInBottom() {
+    private void showInBottom () {
         mParams = (LayoutParams) mBottomTrackView.getLayoutParams();
         mParams.gravity = Gravity.BOTTOM;
     }
@@ -90,7 +91,7 @@ public class IndicatorGroupView extends FrameLayout {
     /**
      * 滚动底部的指示器
      */
-    public void scrollBottomTrack(int position, float positionOffset) {
+    public void scrollBottomTrack (int position, float positionOffset) {
         if (mBottomTrackView == null) {
             return;
         }
@@ -100,7 +101,7 @@ public class IndicatorGroupView extends FrameLayout {
         mBottomTrackView.setLayoutParams(mParams);
     }
 
-    public void scrollBottomTrack(int position) {
+    public void scrollBottomTrack (int position) {
         if (mBottomTrackView == null) {
             return;
         }
@@ -116,7 +117,7 @@ public class IndicatorGroupView extends FrameLayout {
                 .setDuration((long) (Math.abs(distance) * 0.4f));
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
+            public void onAnimationUpdate (ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
                 mParams.leftMargin = (int) value + mInitLeftMargin;
                 mBottomTrackView.setLayoutParams(mParams);

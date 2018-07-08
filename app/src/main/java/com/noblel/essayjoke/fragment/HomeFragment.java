@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.noblel.baselibrary.base.BaseFragment;
@@ -15,6 +16,9 @@ import com.noblel.framelibrary.view.indicator.TrackIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
+import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
 
 /**
  * @author Noblel
@@ -38,6 +42,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initViewPager() {
+
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -50,9 +55,15 @@ public class HomeFragment extends BaseFragment {
             }
         });
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+
+            /**
+             * 进行判断是单一的点击事件还是真实的滑动事件
+             */
+            boolean isExecuteScroll = false;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (positionOffset > 0) {
+                if (positionOffset > 0 && isExecuteScroll) {
                     //获取左边
                     ColorTrackTextView left = mIndicators.get(position);
                     left.setDirection(ColorTrackTextView.Direction.RIGHT_TO_LEFT);
@@ -64,6 +75,17 @@ public class HomeFragment extends BaseFragment {
                     right.setCurrentProgress(positionOffset);
                 }
             }
+
+            @Override
+            public void onPageScrollStateChanged (int state) {
+                if (state == SCROLL_STATE_DRAGGING) {
+                    isExecuteScroll = true;
+                }
+                if (state == SCROLL_STATE_IDLE) {
+                    isExecuteScroll = false;
+                }
+            }
+
         });
     }
 
@@ -77,8 +99,8 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public ColorTrackTextView getView(int position, ViewGroup parent) {
-                ColorTrackTextView colorTrackTextView = new ColorTrackTextView(mContext);
                 //设置颜色
+                ColorTrackTextView colorTrackTextView = new ColorTrackTextView(mContext);
                 colorTrackTextView.setTextSize(20);
                 colorTrackTextView.setChangeColor(Color.RED);
                 colorTrackTextView.setText(mItems[position]);
@@ -103,7 +125,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
     }
 
     @Override
